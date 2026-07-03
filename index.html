@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discover Uganda — The Pearl of Africa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Literata:ital,opsz,wght@0,18..144,400;0,18..144,500;0,18..144,600;1,18..144,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F231B;
+    --forest:#1F5D42;
+    --forest-deep:#153E2D;
+    --gold:#E8B54D;
+    --crane:#A6321F;
+    --parchment:#F4EFE1;
+    --parchment-dim:#EAE2CC;
+    --charcoal:#1B1B16;
+    --line: rgba(244,239,225,0.28);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--charcoal);
+    font-family:'Literata', serif;
+    font-size:17px;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  h1,h2,h3, .display{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'Space Mono', monospace;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit;}
+  img{display:block; width:100%; height:100%; object-fit:cover;}
+
+  /* ---------- Coordinate ticker ---------- */
+  .coord-bar{
+    background:var(--ink);
+    color:var(--parchment-dim);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:9px 28px;
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .coord-bar span{opacity:0.85;}
+  .coord-bar .dot{color:var(--gold);}
+
+  /* ---------- Nav ---------- */
+  nav{
+    background:var(--ink);
+    color:var(--parchment);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 28px 26px;
+    border-bottom:1px solid var(--line);
+  }
+  nav .logo{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight:800;
+    font-size:20px;
+    letter-spacing:0.01em;
+  }
+  nav .logo .zero{color:var(--gold);}
+  nav ul{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    font-size:13.5px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  nav ul li a{
+    text-decoration:none;
+    opacity:0.82;
+    transition:opacity .2s;
+  }
+  nav ul li a:hover{opacity:1; color:var(--gold);}
+  nav ul{
+    padding-left:0;
+  }
+
+  /* Hamburger toggle button (hidden on desktop) */
+  .nav-toggle{
+    display:none;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:6px;
+    width:32px;
+    height:26px;
+    position:relative;
+    z-index:20;
+  }
+  .nav-toggle span{
+    display:block;
+    position:absolute;
+    left:0; right:0;
+    height:2px;
+    background:var(--parchment);
+    transition:transform .25s ease, opacity .25s ease, top .25s ease;
+  }
+  .nav-toggle span:nth-child(1){top:4px;}
+  .nav-toggle span:nth-child(2){top:12px;}
+  .nav-toggle span:nth-child(3){top:20px;}
+  nav.open .nav-toggle span:nth-child(1){top:12px; transform:rotate(45deg);}
+  nav.open .nav-toggle span:nth-child(2){opacity:0;}
+  nav.open .nav-toggle span:nth-child(3){top:12px; transform:rotate(-45deg);}
+
+  @media (max-width:720px){
+    .nav-toggle{display:block;}
+    nav{position:relative; flex-wrap:wrap;}
+    nav ul{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      width:100%;
+      max-height:0;
+      overflow:hidden;
+      opacity:0;
+      transition:max-height .3s ease, opacity .3s ease, margin-top .3s ease;
+      margin-top:0;
+    }
+    nav.open ul{
+      max-height:320px;
+      opacity:1;
+      margin-top:22px;
+    }
+    nav ul li{
+      border-top:1px solid var(--line);
+    }
+    nav ul li a{
+      display:block;
+      padding:16px 4px;
+      font-size:14px;
+    }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    background:var(--ink);
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero img{
+    position:absolute; inset:0;
+    opacity:0.62;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(15,35,27,0.15) 0%, rgba(15,35,27,0.35) 45%, rgba(15,35,27,0.96) 96%);
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    padding:0 28px 64px;
+    max-width:1100px;
+  }
+  .hero-eyebrow{
+    font-size:12.5px;
+    color:var(--gold);
+    text-transform:uppercase;
+    letter-spacing:0.16em;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .hero-eyebrow::before{
+    content:"";
+    width:26px; height:1px;
+    background:var(--gold);
+  }
+  .hero h1{
+    color:var(--parchment);
+    font-size:clamp(48px, 9vw, 118px);
+    line-height:0.94;
+    text-transform:uppercase;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-family:'Literata', serif;
+    font-weight:500;
+    color:var(--gold);
+    text-transform:none;
+  }
+  .hero p.lede{
+    color:var(--parchment-dim);
+    max-width:520px;
+    margin-top:22px;
+    font-size:17px;
+  }
+  .hero-scroll{
+    margin-top:38px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:var(--parchment);
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    border-bottom:1px solid var(--gold);
+    padding-bottom:5px;
+  }
+
+  /* ---------- Equator strip / stats ---------- */
+  .equator{
+    position:relative;
+    background:var(--forest-deep);
+    color:var(--parchment);
+    padding:46px 28px;
+    overflow:hidden;
+  }
+  .equator::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; top:50%;
+    height:0;
+    border-top:2px dashed rgba(232,181,77,0.55);
+  }
+  .equator-inner{
+    position:relative;
+    z-index:2;
+    max-width:1180px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap:34px;
+    justify-content:space-between;
+  }
+  .stat{
+    min-width:150px;
+    background:var(--forest-deep);
+    padding-right:10px;
+  }
+  .stat .num{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-weight:800;
+    font-size:38px;
+    color:var(--gold);
+    line-height:1;
+  }
+  .stat .lab{
+    margin-top:8px;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--parchment-dim);
+  }
+
+  /* ---------- Section shell ---------- */
+  section.block{
+    padding:100px 28px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:30px;
+    margin-bottom:56px;
+    border-bottom:1px solid rgba(27,27,22,0.14);
+    padding-bottom:26px;
+  }
+  .section-head .tag{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--crane);
+    margin-bottom:10px;
+    display:block;
+  }
+  .section-head h2{
+    font-size:clamp(30px, 4vw, 46px);
+    max-width:600px;
+    line-height:1.04;
+  }
+  .section-head .coord{
+    font-size:12.5px;
+    color:var(--forest);
+    white-space:nowrap;
+    padding-bottom:6px;
+  }
+
+  /* ---------- Wildlife feature rows ---------- */
+  .feature-row{
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+    margin-bottom:90px;
+  }
+  .feature-row.reverse{
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+  .feature-row.reverse .feature-media{order:2;}
+  .feature-row.reverse .feature-text{order:1;}
+  .feature-media{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .feature-media .cap{
+    position:absolute;
+    left:0; bottom:0; right:0;
+    background:linear-gradient(0deg, rgba(15,35,27,0.85), transparent);
+    color:var(--parchment);
+    padding:16px 18px;
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  .feature-text .idx{
+    font-size:12.5px;
+    color:var(--forest);
+    margin-bottom:14px;
+    display:block;
+  }
+  .feature-text h3{
+    font-size:clamp(26px,3vw,36px);
+    margin-bottom:18px;
+    line-height:1.06;
+  }
+  .feature-text p{
+    color:#3B3B32;
+    max-width:460px;
+    margin-bottom:14px;
+  }
+  .feature-text .facts{
+    margin-top:22px;
+    display:flex;
+    gap:26px;
+    flex-wrap:wrap;
+  }
+  .feature-text .facts div{
+    font-size:12px;
+  }
+  .feature-text .facts .fnum{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:15px;
+    color:var(--crane);
+  }
+  .feature-text .facts .flab{
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:#6b6b5d;
+    margin-top:3px;
+  }
+
+  @media (max-width:860px){
+    .feature-row, .feature-row.reverse{
+      grid-template-columns:1fr;
+    }
+    .feature-row.reverse .feature-media{order:1;}
+    .feature-row.reverse .feature-text{order:2;}
+  }
+
+  /* ---------- Landscapes gallery ---------- */
+  .land-dark{
+    background:var(--ink);
+    color:var(--parchment);
+  }
+  .land-dark .section-head{
+    border-bottom-color:rgba(244,239,225,0.18);
+  }
+  .land-dark .section-head .tag{color:var(--gold);}
+  .land-dark .section-head .coord{color:var(--gold);}
+  .land-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  .land-card{
+    position:relative;
+    aspect-ratio:3/4;
+    overflow:hidden;
+  }
+  .land-card img{transition:transform .6s ease;}
+  .land-card:hover img{transform:scale(1.06);}
+  .land-card .overlay{
+    position:absolute; inset:0;
+    background:linear-gradient(0deg, rgba(15,35,27,0.92) 0%, rgba(15,35,27,0.05) 55%);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:20px;
+  }
+  .land-card h4{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-size:19px;
+    margin-bottom:6px;
+  }
+  .land-card p{
+    font-size:12.5px;
+    color:var(--parchment-dim);
+    font-family:'Space Mono', monospace;
+  }
+  @media (max-width:860px){
+    .land-grid{grid-template-columns:1fr;}
+  }
+  .culture-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+  @media (max-width:720px){
+    .culture-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Equator banner photo ---------- */
+  .equator-photo{
+    position:relative;
+    height:380px;
+    overflow:hidden;
+  }
+  .equator-photo::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(0deg, rgba(15,35,27,0.9) 0%, rgba(15,35,27,0.08) 62%);
+  }
+  .equator-photo-cap{
+    position:absolute; left:0; right:0; bottom:0;
+    z-index:2;
+    padding:28px 28px 32px;
+    max-width:1180px;
+    margin:0 auto;
+    color:var(--parchment);
+  }
+  .equator-photo-cap .mono{
+    font-size:12px;
+    color:var(--gold);
+    letter-spacing:0.1em;
+    display:block;
+    margin-bottom:8px;
+  }
+  .equator-photo-cap p{
+    max-width:520px;
+    color:var(--parchment-dim);
+    font-size:14.5px;
+  }
+  @media (max-width:720px){
+    .equator-photo{height:260px;}
+  }
+  @media (max-width:480px){
+    .coord-bar{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:4px;
+      padding:9px 20px;
+    }
+    section.block{padding:70px 20px;}
+    .cta{padding:80px 20px 60px;}
+  }
+
+  /* ---------- Culture / Kampala split ---------- */
+  .split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    align-items:stretch;
+  }
+  .split .media{
+    min-height:480px;
+    position:relative;
+  }
+  .split .content{
+    background:var(--parchment-dim);
+    padding:70px 60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .split .content .tag{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--crane);
+    margin-bottom:14px;
+  }
+  .split .content h2{
+    font-size:clamp(28px,3.4vw,42px);
+    margin-bottom:20px;
+    line-height:1.06;
+  }
+  .split .content p{
+    color:#3B3B32;
+    max-width:440px;
+    margin-bottom:14px;
+  }
+  @media (max-width:860px){
+    .split{grid-template-columns:1fr;}
+    .split .content{padding:56px 28px;}
+    .split .media{min-height:320px;}
+  }
+
+  /* ---------- Plan your trip ---------- */
+  .plan{
+    background:var(--forest);
+    color:var(--parchment);
+  }
+  .plan .section-head{border-bottom-color:rgba(244,239,225,0.25);}
+  .plan .section-head .tag{color:var(--gold);}
+  .plan .section-head .coord{color:var(--gold);}
+  .plan-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:rgba(244,239,225,0.2);
+    border:1px solid rgba(244,239,225,0.2);
+  }
+  .plan-card{
+    background:var(--forest);
+    padding:32px 26px;
+  }
+  .plan-card .mono{
+    font-size:12px;
+    color:var(--gold);
+    display:block;
+    margin-bottom:14px;
+  }
+  .plan-card h4{
+    font-family:'Bricolage Grotesque', sans-serif;
+    font-size:18px;
+    margin-bottom:10px;
+  }
+  .plan-card p{
+    font-size:14px;
+    color:var(--parchment-dim);
+  }
+  @media (max-width:860px){
+    .plan-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:520px){
+    .plan-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- CTA / Footer ---------- */
+  .cta{
+    background:var(--ink);
+    color:var(--parchment);
+    text-align:center;
+    padding:120px 28px 90px;
+  }
+  .cta .tag{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--gold);
+    margin-bottom:20px;
+  }
+  .cta h2{
+    font-size:clamp(34px,6vw,64px);
+    max-width:760px;
+    margin:0 auto 24px;
+    line-height:1.03;
+  }
+  .cta p{
+    color:var(--parchment-dim);
+    max-width:480px;
+    margin:0 auto 34px;
+  }
+  .cta-btn{
+    display:inline-block;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    padding:15px 34px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    font-size:13px;
+    text-decoration:none;
+    transition:background .2s, color .2s;
+  }
+  .cta-btn:hover{background:var(--gold); color:var(--ink);}
+
+  footer{
+    background:var(--ink);
+    color:rgba(244,239,225,0.55);
+    padding:26px 28px;
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    border-top:1px solid var(--line);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="coord-bar">
+    <span>0°21'N, 32°35'E <span class="dot">•</span> KAMPALA, UGANDA</span>
+    <span class="mono">EST. REPUBLIC 1962</span>
+  </div>
+
+  <nav id="siteNav">
+    <div class="logo">DISCOVER<span class="zero">.</span>UGANDA</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <ul id="navLinks">
+      <li><a href="#wildlife">Wildlife</a></li>
+      <li><a href="#landscapes">Landscapes</a></li>
+      <li><a href="#culture">Culture</a></li>
+      <li><a href="#plan">Plan a Trip</a></li>
+    </ul>
+  </nav>
+
+  <script>
+    (function(){
+      var nav = document.getElementById('siteNav');
+      var toggle = document.getElementById('navToggle');
+      var links = document.getElementById('navLinks');
+
+      toggle.addEventListener('click', function(){
+        var isOpen = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      // Close the menu after tapping a link
+      links.querySelectorAll('a').forEach(function(link){
+        link.addEventListener('click', function(){
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+    })();
+  </script>
+
+  <header class="hero">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Murchison_Falls.jpg" alt="Murchison Falls, where the Nile forces through a narrow gorge">
+    <div class="hero-content">
+      <div class="hero-eyebrow">The Equator Runs Through Here</div>
+      <h1>The Pearl<br><em>of</em> Africa</h1>
+      <p class="lede">Gorillas in the mist, the source of the Nile, ten national parks and a thousand shades of green — Uganda packs an entire continent's wonder into one small, warm-hearted country.</p>
+      <a href="#wildlife" class="hero-scroll">↓ Begin the journey</a>
+    </div>
+  </header>
+
+  <div class="equator">
+    <div class="equator-inner">
+      <div class="stat"><div class="num mono">10</div><div class="lab">National Parks</div></div>
+      <div class="stat"><div class="num mono">54%</div><div class="lab">Of world's mountain gorillas</div></div>
+      <div class="stat"><div class="num mono">1,000+</div><div class="lab">Recorded bird species</div></div>
+      <div class="stat"><div class="num mono">0°N</div><div class="lab">Straddles the Equator</div></div>
+      <div class="stat"><div class="num mono">5,109m</div><div class="lab">Margherita Peak, Rwenzori</div></div>
+    </div>
+  </div>
+
+  <div class="equator-photo">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Uganda_Equator_(Kayabwe).jpg" alt="The painted Equator line monument at Kayabwe, Mpigi District">
+    <div class="equator-photo-cap">
+      <span class="mono">KAYABWE, MPIGI DISTRICT</span>
+      <p>Two concrete circles on the Kampala–Masaka road mark the exact line where the northern and southern hemispheres meet — stand with one foot in each, then watch water spin opposite ways just metres apart.</p>
+    </div>
+  </div>
+
+  <section class="block" id="wildlife">
+    <div class="section-head">
+      <div>
+        <span class="tag">Wildlife</span>
+        <h2>Encounters found almost nowhere else on Earth</h2>
+      </div>
+      <div class="coord mono">FIELD NOTES — 01</div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mountain_Gorilla,_Bwindi,_Uganda_(16372469599).jpg" alt="Mountain gorilla in Bwindi Impenetrable Forest">
+        <div class="cap">Bwindi Impenetrable Forest</div>
+      </div>
+      <div class="feature-text">
+        <span class="idx mono">01 — PRIMATES</span>
+        <h3>Trek to the mountain gorillas</h3>
+        <p>Bwindi's ancient, mist-tangled forest shelters roughly half of the world's remaining mountain gorillas. A trek in, guided by rangers through bamboo and vine, ends in an hour spent a few quiet metres from a silverback and his family.</p>
+        <div class="facts">
+          <div><div class="fnum mono">459</div><div class="flab">Gorillas in Bwindi</div></div>
+          <div><div class="fnum mono">25</div><div class="flab">Habituated groups</div></div>
+          <div><div class="fnum mono">1,160–2,607m</div><div class="flab">Forest elevation</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row reverse">
+      <div class="feature-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tree_lion_2.jpg" alt="Tree-climbing lion resting in a fig tree, Ishasha">
+        <div class="cap">Ishasha, Queen Elizabeth NP</div>
+      </div>
+      <div class="feature-text">
+        <span class="idx mono">02 — SAVANNAH</span>
+        <h3>Lions that climb the trees</h3>
+        <p>In the Ishasha sector, prides have learned to lounge in the low branches of fig and acacia trees — a rare habit found in only a handful of places on the continent. Below them, kob and buffalo graze the open plains, unaware.</p>
+        <div class="facts">
+          <div><div class="fnum mono">4</div><div class="flab">Resident prides</div></div>
+          <div><div class="fnum mono">95</div><div class="flab">Mammal species in the park</div></div>
+          <div><div class="fnum mono">Jun–Aug</div><div class="flab">Best viewing months</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Grey_Crowned_Crane_in_Uganda_sitting.jpg" alt="Grey crowned crane, Uganda's national bird">
+        <div class="cap">Uganda's National Bird</div>
+      </div>
+      <div class="feature-text">
+        <span class="idx mono">03 — BIRDLIFE</span>
+        <h3>The grey crowned crane</h3>
+        <p>With a halo of golden feathers and a taste for wetland dancing, the crested crane graces the national flag and coat of arms. Uganda's swamps, lakeshores and grasslands make it one of the finest birding destinations in Africa.</p>
+        <div class="facts">
+          <div><div class="fnum mono">1,000+</div><div class="flab">Bird species nationwide</div></div>
+          <div><div class="fnum mono">23</div><div class="flab">Albertine Rift endemics</div></div>
+          <div><div class="fnum mono">Year-round</div><div class="flab">Breeding season</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block land-dark" id="landscapes" style="max-width:none; padding:100px 28px;">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div class="section-head">
+        <div>
+          <span class="tag">Landscapes</span>
+          <h2>From snowfields to crater lakes, in one country</h2>
+        </div>
+        <div class="coord mono">FIELD NOTES — 02</div>
+      </div>
+      <div class="land-grid">
+        <div class="land-card">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Murchison_Falls.jpg" alt="The Nile squeezed through Murchison Falls">
+          <div class="overlay">
+            <h4>Murchison Falls</h4>
+            <p>02°15'N — THE NILE, SQUEEZED TO 7M WIDE</p>
+          </div>
+        </div>
+        <div class="land-card">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/View_over_Lake_Bunyonyi_from_Arcadia_Cottages_-_Southwestern_Uganda_-_01.jpg" alt="Terraced hills around Lake Bunyonyi">
+          <div class="overlay">
+            <h4>Lake Bunyonyi</h4>
+            <p>01°16'S — AFRICA'S SECOND DEEPEST LAKE</p>
+          </div>
+        </div>
+        <div class="land-card">
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rwenzori_mountains_FP.jpg" alt="Snow-capped peaks of the Rwenzori Mountains">
+          <div class="overlay">
+            <h4>Rwenzori Mountains</h4>
+            <p>0°23'N — THE LEGENDARY MOUNTAINS OF THE MOON</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="split" id="culture">
+    <div class="media">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kampala_skyline.jpg" alt="Kampala city skyline at dusk">
+    </div>
+    <div class="content">
+      <span class="tag">Culture &amp; City</span>
+      <h2>Kampala: seven hills, one heartbeat</h2>
+      <p>Built across seven green hills, Uganda's capital moves to the sound of boda-bodas, open-air markets and Afrobeat spilling out of rooftop bars. It's the easy, energetic counterpoint to the quiet of the parks — and the starting point for almost every safari in the country.</p>
+      <p>Beyond the capital, Uganda's 50-plus ethnic groups keep distinct languages, kingdoms and traditions alive — from the Baganda royal drums to the cattle-keeping Karamojong of the northeast.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="section-head">
+      <div>
+        <span class="tag">Living Traditions</span>
+        <h2>Fifty-plus ethnic groups, one nation</h2>
+      </div>
+      <div class="coord mono">FIELD NOTES — 04</div>
+    </div>
+    <div class="land-grid culture-grid">
+      <div class="land-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Baganda_dance.jpg" alt="Baganda dancers performing a traditional Bakisimba dance in Central Uganda">
+        <div class="overlay">
+          <h4>Baganda Royal Dance</h4>
+          <p>BUGANDA KINGDOM — BAKISIMBA &amp; DRUMS</p>
+        </div>
+      </div>
+      <div class="land-card">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Karamoja_warrior_in_Uganda.jpg" alt="Karamojong warrior in traditional dress in northeastern Uganda">
+        <div class="overlay">
+          <h4>Karamojong Herders</h4>
+          <p>NORTHEASTERN UGANDA — CATTLE &amp; CEREMONY</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block plan" id="plan" style="max-width:none; padding:100px 28px;">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div class="section-head">
+        <div>
+          <span class="tag">Plan Your Trip</span>
+          <h2>What to know before you cross the Equator</h2>
+        </div>
+        <div class="coord mono">FIELD NOTES — 03</div>
+      </div>
+      <div class="plan-grid">
+        <div class="plan-card">
+          <span class="mono">01</span>
+          <h4>When to go</h4>
+          <p>Dry seasons (Dec–Feb &amp; Jun–Aug) are best for gorilla trekking and game drives; roads are firmer and forests less muddy.</p>
+        </div>
+        <div class="plan-card">
+          <span class="mono">02</span>
+          <h4>Entry point</h4>
+          <p>Most journeys begin at Entebbe International Airport, a short hop across Lake Victoria from Kampala.</p>
+        </div>
+        <div class="plan-card">
+          <span class="mono">03</span>
+          <h4>Gorilla permits</h4>
+          <p>Permits are limited and sell out early — book through the Uganda Wildlife Authority months ahead of a trek.</p>
+        </div>
+        <div class="plan-card">
+          <span class="mono">04</span>
+          <h4>Getting around</h4>
+          <p>A 4WD with driver-guide is the standard way to cover the distances between parks on Uganda's murram roads.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <span class="tag">0°N, 32°E</span>
+    <h2>Uganda is waiting on the Equator</h2>
+    <p>Ten parks, a thousand birds, and a silverback with your name on his afternoon schedule. The Pearl of Africa doesn't stay undiscovered for long.</p>
+    <a class="cta-btn" href="#wildlife">Start Exploring</a>
+  </section>
+
+  <footer>
+    <span>© Discover Uganda — A traveler's guide to the Pearl of Africa</span>
+    <span class="mono">UGANDA · EAST AFRICA</span>
+  </footer>
+  
+
+</body>
+</html>
